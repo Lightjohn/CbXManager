@@ -24,7 +24,9 @@ When running the foolowing command:
 `
 python cbxmanager.py myfolder/
 `
+
 We will have:
+
 ```
 myFolder/image1.jpg
          image2.jpg
@@ -32,9 +34,11 @@ myFolder/image1.jpg
          image4.jpg
 myFolder.cbz
 ```
+
 And inside myFolder.cbz are all the images.
 
 And if I run:
+
 `
 python cbxmanager.py myfolder.cbz
 `

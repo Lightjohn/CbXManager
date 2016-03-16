@@ -28,10 +28,12 @@ class CbxManager:
         # if the input is a folder we will try to cbz it
         path_deconstruct = [x for x in input_path.split(self.sep) if x != '']  # Note: sep
         folder = path_deconstruct[-1]
-        print("Parsing folder: " + folder)
+        if self.verbose:
+            print("Parsing folder: " + folder)
         # opening cbz and parsing folder to find images
         path_deconstruct[-1] += '.cbz'
         out_cbz = os.path.join(*path_deconstruct)  # Note: list to args=*
+        # If the path was from the root
         if input_path[0] == self.sep:
             out_cbz = self.sep + out_cbz
         # Adding all images in the output cbz
@@ -43,7 +45,8 @@ class CbxManager:
                     if self.verbose:  # Note: If verbose
                         print("        Adding " + file_to_add)
                     myzip.write(file_to_add)
-            print("    CBZ created: " + out_cbz)
+            if self.verbose:
+                print("    CBZ created: " + out_cbz)
 
     def parse_cbz(self, input_path):
         """
@@ -56,9 +59,9 @@ class CbxManager:
         path_deconstruct = [x for x in input_path.split(self.sep) if x != '']  # Note: os.sep
         cbr_file = path_deconstruct[-1]
         path_out = input_path.replace(".cbz", "")
-        print("Parsing cbr files: " + cbr_file)
+        if self.verbose:
+            print("Parsing cbr files: " + cbr_file)
         with ZipFile(input_path, 'r') as myzip:
-            # if args.v:                              # Note: If verbose
             files_to_extract = myzip.namelist()
             try:
                 os.mkdir(path_out)
@@ -70,7 +73,8 @@ class CbxManager:
                     print("        Extracting " + path_out + self.sep + name)
                 with open(path_out + self.sep + name, "w") as tmp_img:
                     tmp_img.write(myzip.read(tmp_file))
-            print("    CBZ extracted to " + path_out)
+            if self.verbose:
+                print("    CBZ extracted to " + path_out)
 
     def slice_folder(self, input_path):
         """
@@ -98,7 +102,7 @@ class CbxManager:
                 im = Image.open(file_to_add)
                 (w, h) = im.size
                 if w > h:
-                    if args.v:  # Note: If verbose
+                    if self.verbose:  # Note: If verbose
                         print("        Slicing ", file_to_add, str(w) + "x" + str(h))
                     tiles = image_slicer.slice(file_to_add, 2, save=False)
                     size_tile = len(tiles)
@@ -112,16 +116,20 @@ class CbxManager:
                     shutil.copy(file_to_add, path_out)
         return path_out
 
-    def launch(self, path_to_data, verbose=False, cut=False, reverse=False):
+    def launch(self, path_to_data, verbose=True, cut=False, reverse=False):
         """
         Front function that receive the arguments and choose what to do:
         Path -> Convert to cbz
         CbX -> Try to open it
+        :param reverse: To switch from manga to comic or comic to manga
+        :param cut: Split the images in two
+        :param verbose: You talk to me ?
+        :param path_to_data: The folder or cbz file
         """
         self.verbose = verbose
         self.cut = cut
         self.reverse = reverse
-        # If the given path started from the root
+        # We need a list to be able to iter on
         if not isinstance(path_to_data, list):
             path_to_data = [path_to_data]
         for i in path_to_data:
@@ -151,6 +159,6 @@ if __name__ == "__main__":
                         help='If splitting is activated then we will reverse the order if the pages (for manga)')
     parser.add_argument('-v', action='store_true', help='verbose')
     args = parser.parse_args()
-    
+
     cbx = CbxManager()
     cbx.launch(args.pathToData, verbose=args.v, cut=args.c, reverse=args.r)

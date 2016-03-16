@@ -14,6 +14,34 @@ I added some options: like splitting the wide images in two and reverse the read
 
 ```
 myFolder/image1.jpg
-myFolder/image1.jpg
-myFolder/image1.jpg
+         image2.jpg
+         image3.jpg
+         image4.jpg
 ```
+
+When running the foolowing command:
+
+`
+python cbxmanager.py myfolder/
+`
+We will have:
+```
+myFolder/image1.jpg
+         image2.jpg
+         image3.jpg
+         image4.jpg
+myFolder.cbz
+```
+And inside myFolder.cbz are all the images.
+
+And if I run:
+`
+python cbxmanager.py myfolder.cbz
+`
+
+It will extract the cbz to the original folder.
+
+# Options
+* -c option to cut the image in two parts
+* -r reverse the lecture order
+* -v verbose mode activated

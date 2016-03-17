@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # coding=utf-8
 import argparse
 import image_slicer
@@ -71,7 +71,7 @@ class CbxManager:
                 name = tmp_file.split(self.sep)[-1]
                 if self.verbose:
                     print("        Extracting " + path_out + self.sep + name)
-                with open(path_out + self.sep + name, "w") as tmp_img:
+                with open(path_out + self.sep + name, "wb") as tmp_img:
                     tmp_img.write(myzip.read(tmp_file))
             if self.verbose:
                 print("    CBZ extracted to " + path_out)

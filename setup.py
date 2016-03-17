@@ -9,4 +9,5 @@ setup(name='cbxmanager',
       author_email='johnleger26@gmail.com',
       url='https://github.com/Lightjohn',
       py_modules=['CbxManager'],
+      scripts=['cbxmanager.py']
      )

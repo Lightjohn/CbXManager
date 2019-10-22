@@ -26,18 +26,20 @@ class CbxManager:
             :param input_path: path/to/folder
         """
         # if the input is a folder we will try to cbz it
-        path_deconstruct = [x for x in input_path.split(self.sep) if x != '']  # Note: sep
+        path_deconstruct = [
+            x for x in input_path.split(self.sep) if x != ""
+        ]  # Note: sep
         folder = path_deconstruct[-1]
         if self.verbose:
             print("Parsing folder: " + folder)
         # opening cbz and parsing folder to find images
-        path_deconstruct[-1] += '.cbz'
+        path_deconstruct[-1] += ".cbz"
         out_cbz = os.path.join(*path_deconstruct)  # Note: list to args=*
         # If the path was from the root
         if input_path[0] == self.sep:
             out_cbz = self.sep + out_cbz
         # Adding all images in the output cbz
-        with ZipFile(out_cbz, 'w') as myzip:
+        with ZipFile(out_cbz, "w") as myzip:
             for files in sorted(os.listdir(input_path)):
                 ext = files[-3:].lower()
                 if ext in images:
@@ -56,12 +58,14 @@ class CbxManager:
             output = path/to/file
 
         """
-        path_deconstruct = [x for x in input_path.split(self.sep) if x != '']  # Note: os.sep
+        path_deconstruct = [
+            x for x in input_path.split(self.sep) if x != ""
+        ]  # Note: os.sep
         cbr_file = path_deconstruct[-1]
         path_out = input_path.replace(".cbz", "")
         if self.verbose:
             print("Parsing cbr files: " + cbr_file)
-        with ZipFile(input_path, 'r') as myzip:
+        with ZipFile(input_path, "r") as myzip:
             files_to_extract = myzip.namelist()
             try:
                 os.mkdir(path_out)
@@ -106,12 +110,16 @@ class CbxManager:
                         print("        Slicing ", file_to_add, str(w) + "x" + str(h))
                     tiles = image_slicer.slice(file_to_add, 2, save=False)
                     size_tile = len(tiles)
-                    if self.reverse:  # If it's a manga, then the first page is the right page
+                    if (
+                        self.reverse
+                    ):  # If it's a manga, then the first page is the right page
                         for a in tiles:
                             pos_tile = a.position
                             a.position = (size_tile, pos_tile[1])
                             size_tile -= 1
-                    image_slicer.save_tiles(tiles, directory=path_out, prefix=files[:-4], format='jpg')
+                    image_slicer.save_tiles(
+                        tiles, directory=path_out, prefix=files[:-4], format="jpg"
+                    )
                 else:
                     shutil.copy(file_to_add, path_out)
         return path_out
@@ -147,17 +155,26 @@ class CbxManager:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Process folders to cbX, cbX to folders and maybe more\n \
+    parser = argparse.ArgumentParser(
+        description="Process folders to cbX, cbX to folders and maybe more\n \
         if the input is a folder, we will compress it to a cbz\n \
         if the input is a cbX we will do according to the options\n \
             no option: extract the cbz to a folder\n\
-            -c extract and split the images\n", formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('pathToData', nargs='+', help='Path to the folder or cbX')
-    parser.add_argument('-c', action='store_true',
-                        help='will try to extract the images from cbX and cut the image in 2')
-    parser.add_argument('-r', action='store_true',
-                        help='If splitting is activated then we will reverse the order if the pages (for manga)')
-    parser.add_argument('-v', action='store_true', help='verbose')
+            -c extract and split the images\n",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument("pathToData", nargs="+", help="Path to the folder or cbX")
+    parser.add_argument(
+        "-c",
+        action="store_true",
+        help="will try to extract the images from cbX and cut the image in 2",
+    )
+    parser.add_argument(
+        "-r",
+        action="store_true",
+        help="If splitting is activated then we will reverse the order if the pages (for manga)",
+    )
+    parser.add_argument("-v", action="store_true", help="verbose")
     args = parser.parse_args()
 
     cbx = CbxManager()

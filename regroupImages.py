@@ -34,7 +34,9 @@ def regroup_all_images(folder):
                     os.makedirs(join(out_folder, volume), exist_ok=True)
 
                 input_path = join(root, i)
-                output_path = join(out_folder, volume, str(count_images).zfill(3) + "." + ext_file)
+                output_path = join(
+                    out_folder, volume, str(count_images).zfill(3) + "." + ext_file
+                )
                 copyfile(input_path, output_path)
                 count_images += 1
 
@@ -64,13 +66,13 @@ def regroup_all_images_cbz(folder, delete=False):
                     count_images = 0
                     cbz_file.close()
                     volume = "Vol " + str(count_folder).zfill(2) + ".cbz"
-                    cbz_file = ZipFile(join(out_folder, volume), 'w')
+                    cbz_file = ZipFile(join(out_folder, volume), "w")
 
                 input_path = join(root, i)
                 output_path = str(count_images).zfill(3) + "." + ext_file
                 if not cbz_file:
                     # Lazy initialisation for empty folders
-                    cbz_file = ZipFile(join(out_folder, volume), 'w')
+                    cbz_file = ZipFile(join(out_folder, volume), "w")
                 cbz_file.write(input_path, output_path)
                 if delete:
                     os.remove(input_path)
@@ -83,8 +85,8 @@ def regroup_all_images_cbz(folder, delete=False):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Rename all files inside a folder.')
-    parser.add_argument("path", help="folder to rename", nargs='+')
+    parser = argparse.ArgumentParser(description="Rename all files inside a folder.")
+    parser.add_argument("path", help="folder to rename", nargs="+")
     parser.add_argument("--delete", help="move and not copy", action="store_true")
     parser.add_argument("--limit", help="number of images per tome", default=170)
     args = parser.parse_args()

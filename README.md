@@ -52,9 +52,9 @@ python cbxmanager.py myfolder.cbz
 It will extract the cbz to the original folder.
 
 ## Options
-* -c option to cut the image in two parts
-* -r reverse the lecture order
-* -v verbose mode activated
+* `-c` option to cut the image in two parts
+* `-r` reverse the lecture order
+* `-v` verbose mode activated
 
 # regroupImages Purpose
 

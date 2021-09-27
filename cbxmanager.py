@@ -46,7 +46,7 @@ class CbxManager:
                     file_to_add = os.path.join(input_path, files)
                     if self.verbose:  # Note: If verbose
                         print("        Adding " + file_to_add)
-                    myzip.write(file_to_add)
+                    myzip.write(file_to_add, arcname=files)
             if self.verbose:
                 print("    CBZ created: " + out_cbz)
 
@@ -110,9 +110,7 @@ class CbxManager:
                         print("        Slicing ", file_to_add, str(w) + "x" + str(h))
                     tiles = image_slicer.slice(file_to_add, 2, save=False)
                     size_tile = len(tiles)
-                    if (
-                        self.reverse
-                    ):  # If it's a manga, then the first page is the right page
+                    if self.reverse:  # If it's a manga, then the first page is the right page
                         for a in tiles:
                             pos_tile = a.position
                             a.position = (size_tile, pos_tile[1])

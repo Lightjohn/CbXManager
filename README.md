@@ -93,5 +93,3 @@ Vol 02.cbz (100 images inside: chapter 03
 ## Notes
 
 It can only generate cbz and does not do the complicated things that `cbxManger` do.
-
-

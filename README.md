@@ -7,6 +7,8 @@ There are two tools here:
 * [cbxManager](#cbxmanager-purpose)
 * [regroupImages](#regroupimages-purpose)
 
+`image_slicer` is pinning pillow in last pypi release so I advise to install deps with: `pip install --no-deps -r requirements.txt`
+
 # CbXManager Purpose
 I need to manage book or images and sometimes I need to deal with the folder and another with the cbz file.
 CbXManager can guess the input and:

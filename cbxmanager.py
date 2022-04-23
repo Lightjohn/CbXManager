@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # coding=utf-8
 import argparse
-import image_slicer
 import os
 import shutil
 from PIL import Image  # python-imaging
@@ -80,6 +79,12 @@ class CbxManager:
             if self.verbose:
                 print("    CBZ extracted to " + path_out)
 
+    def image_slice(self, image_path):
+        original = Image.open(image_path)
+        width, height = original.size
+        wid = int(width / 2)
+        return original.crop((0, 0, wid, height)), original.crop((wid, 0, width, height))
+
     def slice_folder(self, input_path):
         """
         This function should be called with a path to a folder as argument. It will
@@ -108,16 +113,11 @@ class CbxManager:
                 if w > h:
                     if self.verbose:  # Note: If verbose
                         print("        Slicing ", file_to_add, str(w) + "x" + str(h))
-                    tiles = image_slicer.slice(file_to_add, 2, save=False)
-                    size_tile = len(tiles)
+                    img_a, img_b = self.image_slice(file_to_add)
                     if self.reverse:  # If it's a manga, then the first page is the right page
-                        for a in tiles:
-                            pos_tile = a.position
-                            a.position = (size_tile, pos_tile[1])
-                            size_tile -= 1
-                    image_slicer.save_tiles(
-                        tiles, directory=path_out, prefix=files[:-4], format="jpg"
-                    )
+                        img_a, img_b = img_b, img_a
+                    for c, im in enumerate([img_a, img_b]):
+                        im.save(f"{path_out}/{files[:-4]}_{c}.jpg")
                 else:
                     shutil.copy(file_to_add, path_out)
         return path_out

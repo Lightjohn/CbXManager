@@ -7,8 +7,6 @@ There are two tools here:
 * [cbxManager](#cbxmanager-purpose)
 * [regroupImages](#regroupimages-purpose)
 
-`image_slicer` is pinning **pillow** in last pypi release so I advise to install deps with: 
-
 `pip install --no-deps -r requirements.txt`
 
 # CbXManager Purpose
@@ -96,4 +94,4 @@ Vol 02.cbz (100 images inside: chapter 03
 
 ## Notes
 
-It can only generate cbz and does not do the complicated things that `cbxManger` do.
+It can only generate cbz and does not do the complicated things that `cbxManager` do.

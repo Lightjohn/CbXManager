@@ -9,13 +9,14 @@ images_type = ["jpg", "jpeg", "png", "webp"]
 
 HARD_LIMIT = 170
 USE_CBZ = True
+DEFAULT_NAME = "Vol "
 
 
 def regroup_all_images(folder):
     out_folder = folder
     count_images = 0
     count_folder = 1
-    volume = "Vol 01"
+    volume = DEFAULT_NAME + "01"
     os.makedirs(out_folder, exist_ok=True)
     os.makedirs(join(out_folder, volume))
     current_dir = ""
@@ -30,7 +31,7 @@ def regroup_all_images(folder):
                     current_dir = root
                     count_folder += 1
                     count_images = 0
-                    volume = "Vol " + str(count_folder).zfill(2)
+                    volume = DEFAULT_NAME + str(count_folder).zfill(2)
                     os.makedirs(join(out_folder, volume), exist_ok=True)
 
                 input_path = join(root, i)
@@ -45,7 +46,7 @@ def regroup_all_images_cbz(folder, delete=False):
     out_folder = folder
     count_images = 0
     count_folder = 1
-    volume = "Vol 01.cbz"
+    volume = DEFAULT_NAME + "01.cbz"
     os.makedirs(out_folder, exist_ok=True)
     current_dir = ""
     cbz_file = None
@@ -65,7 +66,7 @@ def regroup_all_images_cbz(folder, delete=False):
                     count_folder += 1
                     count_images = 0
                     cbz_file.close()
-                    volume = "Vol " + str(count_folder).zfill(2) + ".cbz"
+                    volume = DEFAULT_NAME + str(count_folder).zfill(2) + ".cbz"
                     cbz_file = ZipFile(join(out_folder, volume), "w")
 
                 input_path = join(root, i)
@@ -85,10 +86,10 @@ def regroup_all_images_cbz(folder, delete=False):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Rename all files inside a folder.")
+    parser = argparse.ArgumentParser(description="Regroup all images inside a cbz according to a limit.")
     parser.add_argument("path", help="folder to rename", nargs="+")
     parser.add_argument("--delete", help="move and not copy", action="store_true")
-    parser.add_argument("--limit", help="number of images per tome", default=170)
+    parser.add_argument("--limit", help="number of images per tome", default=HARD_LIMIT)
     args = parser.parse_args()
     HARD_LIMIT = args.limit
     for path in args.path:

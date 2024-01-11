@@ -55,7 +55,7 @@ It will extract the cbz to the original folder.
 
 ## Options
 * `-c` option to cut the image in two parts
-* `-r` reverse the lecture order
+  * `-r` reverse the lecture order (only when `-c` is used else ignored)
 * `-v` verbose mode activated
 
 # regroupImages Purpose

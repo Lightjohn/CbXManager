@@ -20,7 +20,7 @@ def regroup_all_images(folder):
     os.makedirs(out_folder, exist_ok=True)
     os.makedirs(join(out_folder, volume))
     current_dir = ""
-    for (root, dirs, files) in walk(folder):
+    for root, dirs, files in walk(folder):
         for i in files:
             ext_file = i.split(".")[-1].lower()
             if ext_file in images_type:
@@ -50,7 +50,7 @@ def regroup_all_images_cbz(folder, delete=False):
     os.makedirs(out_folder, exist_ok=True)
     current_dir = ""
     cbz_file = None
-    for (root, dirs, files) in walk(folder):
+    for root, dirs, files in walk(folder):
         dirs.sort()
         files.sort()
         if root == folder:
@@ -86,7 +86,9 @@ def regroup_all_images_cbz(folder, delete=False):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Regroup all images inside a cbz according to a limit.")
+    parser = argparse.ArgumentParser(
+        description="Regroup all images inside a cbz according to a limit."
+    )
     parser.add_argument("path", help="folder to rename", nargs="+")
     parser.add_argument("--delete", help="move and not copy", action="store_true")
     parser.add_argument("--limit", help="number of images per tome", default=HARD_LIMIT)

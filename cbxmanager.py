@@ -83,7 +83,9 @@ class CbxManager:
         original = Image.open(image_path)
         width, height = original.size
         wid = int(width / 2)
-        return original.crop((0, 0, wid, height)), original.crop((wid, 0, width, height))
+        return original.crop((0, 0, wid, height)), original.crop(
+            (wid, 0, width, height)
+        )
 
     def slice_folder(self, input_path):
         """
@@ -114,10 +116,12 @@ class CbxManager:
                     if self.verbose:  # Note: If verbose
                         print("        Slicing ", file_to_add, str(w) + "x" + str(h))
                     img_a, img_b = self.image_slice(file_to_add)
-                    if self.reverse:  # If it's a manga, then the first page is the right page
+                    if (
+                        self.reverse
+                    ):  # If it's a manga, then the first page is the right page
                         img_a, img_b = img_b, img_a
                     for c, im in enumerate([img_a, img_b]):
-                        im.save(f"{path_out}/{files[:-4]}_{c}.jpg")
+                        im.save(f"{path_out}{self.sep}{files[:-4]}_{c}.jpg")
                 else:
                     shutil.copy(file_to_add, path_out)
         return path_out

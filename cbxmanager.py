@@ -74,6 +74,9 @@ class CbxManager:
                 name = tmp_file.split(self.sep)[-1]
                 if self.verbose:
                     print("        Extracting " + path_out + self.sep + name)
+                if name.endswith("/"):
+                    os.makedirs(path_out + self.sep + name)
+                    continue
                 with open(path_out + self.sep + name, "wb") as tmp_img:
                     tmp_img.write(myzip.read(tmp_file))
             if self.verbose:
@@ -121,7 +124,7 @@ class CbxManager:
                     ):  # If it's a manga, then the first page is the right page
                         img_a, img_b = img_b, img_a
                     for c, im in enumerate([img_a, img_b]):
-                        im.save(f"{path_out}{self.sep}{files[:-4]}_{c}.jpg")
+                        im.save(f"{path_out}/{files[:-4]}_{c}.jpg")
                 else:
                     shutil.copy(file_to_add, path_out)
         return path_out
